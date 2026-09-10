@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAIFAH SETUP THAI — สอนตั้งค่าภาษาไทย Magic Core Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060a14'/%3E%3Cpath d='M35 6 14 36h13l-4 22 23-32H33l2-20z' fill='%233d7dff'/%3E%3C/svg%3E">
+
+<style>
+/* ============================================
+   SAIFAH SETUP THAI
+   Palette: deep navy-black base, electric blue accent, gold stars
+   Type: Kanit (Thai-supporting geometric sans), single family
+   ============================================ */
+
+:root {
+  --bg-base:      #060a14;
+  --bg-raised:    #0c1324;
+  --bg-card:      #101a30;
+  --line:         #1c2740;
+  --blue-accent:  #3d7dff;
+  --blue-glow:    #1c3f8f;
+  --text-hi:      #eef1f8;
+  --text-mid:     #9aa6c3;
+  --text-low:     #5b6584;
+  --star-gold:    #ffc23c;
+  --star-off:     #2a3350;
+
+  --radius-card: 14px;
+  --radius-thumb: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  background-image:
+    radial-gradient(circle at 15% 0%, var(--blue-glow) 0%, transparent 38%),
+    radial-gradient(circle at 100% 20%, #10204a 0%, transparent 45%);
+  background-attachment: fixed;
+  color: var(--text-hi);
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: rgba(6, 10, 20, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: linear-gradient(145deg, var(--blue-accent), #1a3d8f);
+  color: #fff;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 6px 16px -6px rgba(61,125,255,0.65);
+  flex-shrink: 0;
+}
+
+.logo__bolt {
+  width: 19px;
+  height: 19px;
+}
+
+.logo__text {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--text-hi);
+}
+
+.logo__text span {
+  font-weight: 300;
+  color: var(--text-mid);
+  margin-left: 4px;
+}
+
+/* ---------- Intro ---------- */
+
+.intro {
+  padding: 52px 20px 36px;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro__inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.intro__eyebrow {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--blue-accent);
+}
+
+.intro__title {
+  margin: 0 0 16px;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 600;
+  line-height: 1.28;
+  color: var(--text-hi);
+}
+
+.intro__desc {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 15.5px;
+  line-height: 1.8;
+  font-weight: 300;
+  color: var(--text-mid);
+}
+
+/* ---------- Game grid ---------- */
+
+.game-section {
+  padding: 40px 20px 80px;
+}
+
+.game-section__inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.game-card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.game-card:not(.game-card--empty):hover {
+  border-color: var(--blue-accent);
+  transform: translateY(-2px);
+}
+
+.game-card__thumb {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+
+.game-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.game-card__thumb--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-low);
+  background:
+    repeating-linear-gradient(45deg, var(--bg-raised), var(--bg-raised) 10px, #0a0f1e 10px, #0a0f1e 20px);
+}
+
+.game-card__placeholder-icon {
+  width: 34%;
+  height: 34%;
+  opacity: 0.55;
+}
+
+.game-card__body {
+  padding: 12px 14px 16px;
+}
+
+.game-card__title {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-card__title--empty {
+  color: var(--text-low);
+  font-weight: 400;
+}
+
+/* ---------- Star rating (SVG, never emoji) ---------- */
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.star {
+  width: 15px;
+  height: 15px;
+}
+
+.star--filled,
+.star--full {
+  fill: var(--star-gold);
+}
+
+.star--empty {
+  fill: var(--star-off);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 22px 20px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-low);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 420px) {
+  .game-grid { gap: 12px; }
+  .game-card__body { padding: 10px 11px 13px; }
+  .star { width: 13px; height: 13px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="logo">
+      <span class="logo__mark">
+        <svg class="logo__bolt" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M35 6 14 36h13l-4 22 23-32H33l2-20z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="logo__text">SAIFAH <span>SETUP THAI</span></span>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="intro__inner">
+    <p class="intro__eyebrow">คู่มือตั้งค่าเกม</p>
+    <h1 class="intro__title">สอนตั้งค่าภาษาไทย<br>ในแอพ Magic Core Cloud</h1>
+    <p class="intro__desc">
+      เว็บไซต์นี้จะสอนตั้งค่า ภาษาไทย เกมต่างๆ ที่สามารถตั้งค่าได้ในแอพ Magic Core Cloud
+      เลือกเกมที่ต้องการด้านล่าง แล้วทำตามขั้นตอนได้เลย
+    </p>
+  </div>
+</section>
+
+<main class="game-section">
+  <div class="game-section__inner">
+    <div class="game-grid" id="gameGrid">
+
+      <!-- ช่องว่าง ยังไม่มีข้อมูล -->
+      <a class="game-card game-card--empty" href="#" aria-disabled="true">
+        <div class="game-card__thumb game-card__thumb--empty">
+          <svg class="game-card__placeholder-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="52" height="38" rx="4" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="22" cy="28" r="3.5" fill="currentColor"/>
+            <path d="M10 46L24 34L34 42L44 32L54 44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="game-card__body">
+          <h3 class="game-card__title game-card__title--empty">ยังไม่มีข้อมูลเกม</h3>
+          <div class="star-rating" aria-label="ยังไม่มีคะแนน">
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2026 SAIFAH SETUP THAI</p>
+</footer>
+
+<script>
+/* ============================================
+   SAIFAH SETUP THAI — game grid renderer
+   ตอนนี้ยังไม่มีเกมในระบบ (ช่องว่างที่เห็นคือ placeholder ด้านบน)
+   เมื่อมีระบบหลังบ้านแล้ว ให้เพิ่มข้อมูลเกมลงใน "games" array ด้านล่าง
+   แล้วฟังก์ชัน renderGames() จะสร้างการ์ดให้อัตโนมัติ
+   ============================================ */
+
+const games = [
+  {
+    title: "Marvel's Spider-Man 2",
+    image: "images/marvels-spider-man-2.jpg",
+    rating: 4.5,   // 0-5, รองรับทศนิยม .5 สำหรับดาวครึ่งดวง
+    url: "#"
+  },
+];
+
+let starGradientCount = 0;
+
+function createStarSVG(state) {
+  // state: "full" | "half" | "empty"
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("class", "star star--" + state);
+  const starPath = "M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z";
+
+  if (state === "half") {
+    starGradientCount += 1;
+    const gradId = `star-half-grad-${starGradientCount}`;
+
+    const defs = document.createElementNS(ns, "defs");
+    const grad = document.createElementNS(ns, "linearGradient");
+    grad.setAttribute("id", gradId);
+    grad.setAttribute("x1", "0%");
+    grad.setAttribute("x2", "100%");
+    grad.setAttribute("y1", "0%");
+    grad.setAttribute("y2", "0%");
+
+    const stop1 = document.createElementNS(ns, "stop");
+    stop1.setAttribute("offset", "50%");
+    stop1.setAttribute("stop-color", "var(--star-gold)");
+
+    const stop2 = document.createElementNS(ns, "stop");
+    stop2.setAttribute("offset", "50%");
+    stop2.setAttribute("stop-color", "var(--star-off)");
+
+    grad.appendChild(stop1);
+    grad.appendChild(stop2);
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    const path = document.createElementNS(ns, "path");
+    path.setAttribute("d", starPath);
+    path.setAttribute("fill", `url(#${gradId})`);
+    svg.appendChild(path);
+    return svg;
+  }
+
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("d", starPath);
+  svg.appendChild(path);
+  return svg;
+}
+
+function buildStarRating(rating) {
+  const wrap = document.createElement("div");
+  wrap.className = "star-rating";
+  wrap.setAttribute("aria-label", `คะแนน ${rating} จาก 5 ดาว`);
+
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.25 && rating % 1 < 0.75;
+  const roundsUpToFull = rating % 1 >= 0.75;
+
+  for (let i = 1; i <= 5; i++) {
+    let state = "empty";
+    if (i <= fullStars) state = "full";
+    else if (i === fullStars + 1 && roundsUpToFull) state = "full";
+    else if (i === fullStars + 1 && hasHalf) state = "half";
+    wrap.appendChild(createStarSVG(state));
+  }
+  return wrap;
+}
+
+function buildGameCard(game) {
+  const card = document.createElement("a");
+  card.className = "game-card";
+  card.href = game.url || "#";
+
+  const thumb = document.createElement("div");
+  thumb.className = "game-card__thumb";
+  const img = document.createElement("img");
+  img.src = game.image;
+  img.alt = game.title;
+  thumb.appendChild(img);
+
+  const body = document.createElement("div");
+  body.className = "game-card__body";
+
+  const title = document.createElement("h3");
+  title.className = "game-card__title";
+  title.textContent = game.title;
+
+  body.appendChild(title);
+  body.appendChild(buildStarRating(game.rating || 0));
+
+  card.appendChild(thumb);
+  card.appendChild(body);
+  return card;
+}
+
+function renderGames() {
+  if (!games.length) return; // ยังไม่มีข้อมูล ปล่อยให้ placeholder ใน HTML แสดงต่อไป
+
+  const grid = document.getElementById("gameGrid");
+  const emptyCard = grid.querySelector(".game-card--empty");
+
+  games.forEach((game) => {
+    grid.appendChild(buildGameCard(game));
+  });
+
+  // ถ้ามีเกมจริงแล้ว ซ่อนช่องว่าง placeholder
+  if (emptyCard) emptyCard.style.display = "none";
+}
+
+renderGames();
+</script>
+
+</body>
+</html>
