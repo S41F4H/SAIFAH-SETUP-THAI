@@ -177,10 +177,27 @@ a { text-decoration: none; color: inherit; }
 }
 
 .game-card__thumb {
+  position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
   overflow: hidden;
   background: var(--bg-raised);
+}
+
+.game-card__lang {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(6, 10, 20, 0.72);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.2px;
 }
 
 .game-card__thumb img {
@@ -287,9 +304,9 @@ a { text-decoration: none; color: inherit; }
 <section class="intro">
   <div class="intro__inner">
     <p class="intro__eyebrow">คู่มือตั้งค่าเกม</p>
-    <h1 class="intro__title">สอนตั้งค่าภาษาไทย<br>ในแอพ Magic Core Cloud</h1>
+    <h1 class="intro__title">สอนตั้งค่าภาษา<br>ในแอพ Magic Core Cloud</h1>
     <p class="intro__desc">
-      เว็บไซต์นี้จะสอนตั้งค่า ภาษาไทย เกมต่างๆ ที่สามารถตั้งค่าได้ในแอพ Magic Core Cloud
+      เว็บไซต์นี้จะสอนตั้งค่า ภาษาไทยหรืออังกฤษ เกมต่างๆ ที่สามารถตั้งค่าได้ในแอพ Magic Core Cloud
       เลือกเกมที่ต้องการด้านล่าง แล้วทำตามขั้นตอนได้เลย
     </p>
   </div>
@@ -298,28 +315,7 @@ a { text-decoration: none; color: inherit; }
 <main class="game-section">
   <div class="game-section__inner">
     <div class="game-grid" id="gameGrid">
-
-      <!-- ช่องว่าง ยังไม่มีข้อมูล -->
-      <a class="game-card game-card--empty" href="#" aria-disabled="true">
-        <div class="game-card__thumb game-card__thumb--empty">
-          <svg class="game-card__placeholder-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="14" width="52" height="38" rx="4" stroke="currentColor" stroke-width="2.5"/>
-            <circle cx="22" cy="28" r="3.5" fill="currentColor"/>
-            <path d="M10 46L24 34L34 42L44 32L54 44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="game-card__body">
-          <h3 class="game-card__title game-card__title--empty">ยังไม่มีข้อมูลเกม</h3>
-          <div class="star-rating" aria-label="ยังไม่มีคะแนน">
-            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
-            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
-            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
-            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
-            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 9.2l7.1-.6L12 2z"/></svg>
-          </div>
-        </div>
-      </a>
-
+      <!-- การ์ดเกมจริง + ช่องว่างเตรียมไว้ ถูกสร้างโดย JavaScript ด้านล่าง -->
     </div>
   </div>
 </main>
@@ -341,7 +337,15 @@ const games = [
     title: "Marvel's Spider-Man 2",
     image: "images/marvels-spider-man-2.jpg",
     rating: 4.5,   // 0-5, รองรับทศนิยม .5 สำหรับดาวครึ่งดวง
+    lang: "ภาษาไทย",
     url: "setup/marvels-spider-man-2.html"
+  },
+  {
+    title: "Watch Dogs 2",
+    image: "images/watch-dogs-2.jpg",
+    rating: 4,
+    lang: "ภาษาอังกฤษ",
+    url: "#"
   },
 ];
 
@@ -419,6 +423,14 @@ function buildGameCard(game) {
 
   const thumb = document.createElement("div");
   thumb.className = "game-card__thumb";
+
+  if (game.lang) {
+    const badge = document.createElement("span");
+    badge.className = "game-card__lang";
+    badge.textContent = game.lang;
+    thumb.appendChild(badge);
+  }
+
   const img = document.createElement("img");
   img.src = game.image;
   img.alt = game.title;
@@ -439,18 +451,54 @@ function buildGameCard(game) {
   return card;
 }
 
-function renderGames() {
-  if (!games.length) return; // ยังไม่มีข้อมูล ปล่อยให้ placeholder ใน HTML แสดงต่อไป
+function buildEmptySlotCard() {
+  const ns = "http://www.w3.org/2000/svg";
+  const card = document.createElement("a");
+  card.className = "game-card game-card--empty";
+  card.href = "#";
+  card.setAttribute("aria-disabled", "true");
 
+  const thumb = document.createElement("div");
+  thumb.className = "game-card__thumb game-card__thumb--empty";
+
+  const icon = document.createElementNS(ns, "svg");
+  icon.setAttribute("class", "game-card__placeholder-icon");
+  icon.setAttribute("viewBox", "0 0 64 64");
+  icon.setAttribute("fill", "none");
+  icon.innerHTML =
+    '<rect x="6" y="14" width="52" height="38" rx="4" stroke="currentColor" stroke-width="2.5"/>' +
+    '<circle cx="22" cy="28" r="3.5" fill="currentColor"/>' +
+    '<path d="M10 46L24 34L34 42L44 32L54 44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  thumb.appendChild(icon);
+
+  const body = document.createElement("div");
+  body.className = "game-card__body";
+
+  const title = document.createElement("h3");
+  title.className = "game-card__title game-card__title--empty";
+  title.textContent = "ยังไม่มีข้อมูลเกม";
+
+  body.appendChild(title);
+  body.appendChild(buildStarRating(0));
+
+  card.appendChild(thumb);
+  card.appendChild(body);
+  return card;
+}
+
+// จำนวนช่องว่าง "เตรียมไว้" ที่จะแสดงต่อท้ายรายการเกมจริงเสมอ
+const emptySlotCount = 1;
+
+function renderGames() {
   const grid = document.getElementById("gameGrid");
-  const emptyCard = grid.querySelector(".game-card--empty");
 
   games.forEach((game) => {
     grid.appendChild(buildGameCard(game));
   });
 
-  // ถ้ามีเกมจริงแล้ว ซ่อนช่องว่าง placeholder
-  if (emptyCard) emptyCard.style.display = "none";
+  for (let i = 0; i < emptySlotCount; i++) {
+    grid.appendChild(buildEmptySlotCard());
+  }
 }
 
 renderGames();
